@@ -1,24 +1,32 @@
 /*
  * Global stylesheet for Luke's portfolio website.
  *
- * The design aims to be clean and professional while still being easy
- * to extend. Common rules (colours, fonts, spacing) are defined as
- * CSS variables at the root so they can be tweaked in one place. The
- * layout uses a simple flexbox column with a fixed width content
- * container to keep line lengths readable. Navigation links are
- * styled like buttons for easy scanning, and cards provide a
- * consistent look for lists of projects and certifications.
+ * The updated design takes inspiration from modern academic and
+ * portfolio sites. A cohesive colour palette built around deep
+ * blues and subtle gradients creates a contemporary feel. Headings
+ * use a monospaced font for a technical touch, while body copy
+ * remains highly readable. Cards and buttons animate gently on
+ * hover to improve interactivity.
  */
 
+/* Import Google Fonts: Inter for body text and Fira Code for headings */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
 :root {
-  --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  --color-primary: #003366; /* deep blue for headers and links */
-  --color-accent: #007acc; /* brighter blue for highlights */
-  --color-background: #f9fafb; /* subtle light grey for page background */
-  --color-surface: #ffffff; /* white surfaces for cards */
-  --color-text: #333333; /* dark grey for body text */
-  --color-muted: #666666; /* muted grey for secondary text */
-  --border-radius: 8px;
+  /* Typography */
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'Fira Code', monospace;
+
+  /* Colour palette */
+  --color-primary: #1e3a8a; /* rich blue for headers and backgrounds */
+  --color-accent: #5865f2; /* vibrant mid-blue for highlights */
+  --color-background: #f5f7fa; /* very light grey for page background */
+  --color-surface: #ffffff; /* white surfaces for cards and panels */
+  --color-text: #1f2937; /* almost-black for body text */
+  --color-muted: #4b5563; /* muted grey for secondary text */
+
+  /* Layout and spacing */
+  --border-radius: 12px;
   --spacing-small: 0.5rem;
   --spacing-medium: 1rem;
   --spacing-large: 2rem;
@@ -28,7 +36,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  font-family: var(--font-family);
+  font-family: var(--font-sans);
   color: var(--color-text);
   background-color: var(--color-background);
   line-height: 1.6;
@@ -38,7 +46,10 @@ header {
   background-color: var(--color-primary);
   color: #fff;
   padding: var(--spacing-medium) 0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .container {
@@ -56,8 +67,9 @@ nav {
 }
 
 nav h1 {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   margin: 0;
+  font-family: var(--font-mono);
 }
 
 nav ul {
@@ -66,95 +78,138 @@ nav ul {
   padding: 0;
   display: flex;
   flex-wrap: wrap;
+  gap: 1.5rem;
 }
 
 nav li {
-  margin-left: var(--spacing-medium);
+  margin: 0;
 }
 
 nav a {
   color: #fff;
   text-decoration: none;
   font-weight: 500;
+  position: relative;
+  padding-bottom: 0.2rem;
   transition: color 0.2s ease;
+}
+
+/* Underline animation on nav links */
+nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  background-color: var(--color-accent);
+  transition: width 0.3s ease;
 }
 
 nav a:hover,
 nav a:focus {
-  color: var(--color-accent);
+  color: #e0e7ff;
+}
+
+nav a:hover::after,
+nav a:focus::after {
+  width: 100%;
 }
 
 /* Hero section styling */
+/* Hero section styling */
 .hero {
-  padding: var(--spacing-large) 0;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  padding: var(--spacing-large) 0;
+  background: linear-gradient(135deg, #1e3a8a 0%, #2740b0 100%);
   color: #fff;
+  position: relative;
+  overflow: hidden;
 }
 
 .hero h2 {
-  font-size: 2rem;
+  font-family: var(--font-mono);
+  font-size: 3rem;
   margin-bottom: var(--spacing-small);
 }
 
 .hero p {
-  max-width: 700px;
+  max-width: 800px;
   margin: 0 auto;
-  font-size: 1.1rem;
+  font-size: 1.25rem;
+  line-height: 1.7;
 }
 
 .hero .cta {
-  margin-top: var(--spacing-medium);
+  margin-top: var(--spacing-large);
 }
 
 .hero .cta a {
   display: inline-block;
-  padding: 0.75rem 1.5rem;
-  background-color: #fff;
-  color: var(--color-primary);
+  padding: 0.75rem 1.75rem;
+  background-color: var(--color-accent);
+  color: #fff;
   border-radius: var(--border-radius);
   text-decoration: none;
-  font-weight: bold;
-  transition: background-color 0.2s ease;
+  font-weight: 600;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .hero .cta a:hover {
-  background-color: var(--color-accent);
-  color: #fff;
+  background-color: #6a74ff;
+  transform: translateY(-2px);
 }
 
 /* Card layout for lists */
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: var(--spacing-medium);
+  gap: var(--spacing-large);
   margin-top: var(--spacing-medium);
 }
 
 .card {
   background-color: var(--color-surface);
   border-radius: var(--border-radius);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   padding: var(--spacing-medium);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
 }
 
 .card h3 {
   margin-top: 0;
+  margin-bottom: var(--spacing-small);
   color: var(--color-primary);
+  font-size: 1.5rem;
+  font-family: var(--font-mono);
 }
 
 .card p {
   color: var(--color-muted);
+  font-size: 0.95rem;
+  margin-bottom: var(--spacing-small);
 }
 
 .card a {
   color: var(--color-accent);
   text-decoration: none;
   font-weight: 500;
+  transition: color 0.2s ease;
 }
 
 .card a:hover {
   text-decoration: underline;
+  color: #4f58d0;
 }
 
 /* Table styling for certifications */
@@ -162,18 +217,22 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-top: var(--spacing-medium);
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius);
+  overflow: hidden;
 }
 
 th,
 td {
   text-align: left;
-  padding: var(--spacing-small);
-  border-bottom: 1px solid #ddd;
+  padding: var(--spacing-small) var(--spacing-medium);
+  border-bottom: 1px solid #e5e7eb;
 }
 
 th {
   background-color: var(--color-primary);
   color: #fff;
+  font-weight: 600;
 }
 
 /* Footer styling */
